@@ -379,14 +379,20 @@ class Question:
 
         If the value cannot be used as a template, it will be returned as is.
         """
+        print(f"value: {value}")
         try:
             template = self.jinja_env.from_string(value)
         except TypeError:
             # value was not a string
+            print("r1")
             return value
         try:
+            a = template.render(**self.answers.combined)
+            print("r2")
+            print(a, a.__class__)
             return template.render(**self.answers.combined)
         except UndefinedError as error:
+            print("r3")
             raise UserMessageError(str(error)) from error
 
 

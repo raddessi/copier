@@ -340,8 +340,12 @@ class Worker:
                     **details,
                 )
             )
+        print(len(questions))
+        print("z1")
         for question in questions:
             # Display TUI and ask user interactively only without --defaults
+            print("\nnew")
+            print(question)
             try:
                 new_answer = (
                     question.get_default()
@@ -351,10 +355,20 @@ class Worker:
                     )[question.var_name]
                 )
             except KeyboardInterrupt as err:
+                print("e2")
                 raise CopierAnswersInterrupt(result, question, self.template) from err
+            except Exception as err:
+                import traceback
+                print("e3")
+                print(traceback.format_exc())
+                raise
             previous_answer = result.combined.get(question.var_name)
             if new_answer != previous_answer:
                 result.user[question.var_name] = new_answer
+            print(result)
+
+        print("zzz")
+        print(result)
         return result
 
     @cached_property
